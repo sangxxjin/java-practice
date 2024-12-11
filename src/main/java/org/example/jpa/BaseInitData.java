@@ -23,9 +23,11 @@ public class BaseInitData {
         };
     }@Bean
     @Order(2)
-    public ApplicationRunner BaseInitData2() {
+    public ApplicationRunner baseInitData2ApplicationRunner() {
         return args -> {
-            Post post = postService.findById(1).get();
+            Ut.thread.sleep(1000);
+            Post post1 = postService.findById(1).get();
+            postService.modify(post1, "title1-1", "content1-1");
         };
     }
 
