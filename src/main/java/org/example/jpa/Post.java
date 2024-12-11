@@ -7,17 +7,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Getter
 @Setter
+@AllArgsConstructor
 public class Post {
-
-    //long => null X
-    //Long => null o
-    //Jpa 엔티티 클래스 특성상 id 필드는 null이 가능하도록
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT
     private Long id;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -26,5 +26,4 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
     private boolean blind;
-
 }

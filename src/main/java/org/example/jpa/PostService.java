@@ -11,12 +11,14 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Post writePost(String title, String content) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-        post.setCreatedAt(LocalDateTime.now());
-        post.setModifiedAt(LocalDateTime.now());
-        post.setBlind(false);
+        Post post = new Post(
+            null,
+            LocalDateTime.now(),
+            LocalDateTime.now(),
+            title,
+            content,
+            false
+        );
         postRepository.save(post);
         return post;
     }
