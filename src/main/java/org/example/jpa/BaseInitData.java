@@ -1,6 +1,8 @@
 package org.example.jpa;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +23,20 @@ public class BaseInitData {
             postService.writePost("title3", "content3");
             System.out.println(postService.count());
         };
-    }@Bean
+    }
+
+    @Bean
     @Order(2)
+    @Transactional
     public ApplicationRunner baseInitData2ApplicationRunner() {
-        return args -> {
-            Ut.thread.sleep(1000);
-            Post post1 = postService.findById(1).get();
-            postService.modify(post1, "title1-1", "content1-1");
+        return new ApplicationRunner() {
+            @Transactional
+            @Override
+            public void run(ApplicationArguments args) throws Exception {
+                Ut.thread.sleep(1000);
+                Post post1 = postService.findById(1).get();
+                postService.modify(post1, "title1-1", "content1-1");
+            }
         };
     }
 
