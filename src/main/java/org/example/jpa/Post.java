@@ -29,12 +29,15 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     @CreatedDate
+    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
+    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime modifiedAt;
 
     @Column(length = 100)
