@@ -17,6 +17,7 @@ public class BaseInitData {
             postService.writePost("title1", "content1");
             postService.writePost("title2", "content2");
             postService.writePost("title3", "content3");
+            System.out.println(postService.count());
         };
     }
 
