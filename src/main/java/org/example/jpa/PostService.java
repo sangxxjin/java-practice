@@ -1,6 +1,5 @@
 package org.example.jpa;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,6 @@ public class PostService {
     public Post writePost(String title, String content) {
         Post post = Post
             .builder()
-            .createdAt(LocalDateTime.now())
-            .modifiedAt(LocalDateTime.now())
             .title(title)
             .content(content)
             .build();
