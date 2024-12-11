@@ -9,12 +9,14 @@ import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT

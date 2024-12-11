@@ -1,6 +1,7 @@
 package org.example.jpa;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,9 @@ public class PostService {
 
     public long count() {
         return postRepository.count();
+    }
+
+    public Optional<Post> findById(long id) {
+        return postRepository.findById(id);
     }
 }
