@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.Setter;
 
 @Entity
+@Setter
 public class Post {
 
     //long => null X
@@ -23,5 +25,6 @@ public class Post {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
+    private boolean blind;
 
 }
