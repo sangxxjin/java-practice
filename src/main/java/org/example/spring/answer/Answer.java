@@ -1,4 +1,4 @@
-package org.example.spring;
+package org.example.spring.answer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.spring.question.Question;
 
 @Getter
 @Setter
