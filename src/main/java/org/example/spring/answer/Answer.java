@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.spring.question.Question;
+import org.example.spring.user.SiteUser;
 
 @Getter
 @Setter
@@ -23,4 +24,6 @@ public class Answer {
     private LocalDateTime createDate;
     @ManyToOne
     private Question question;
+    @ManyToOne
+    private SiteUser author;
 }
