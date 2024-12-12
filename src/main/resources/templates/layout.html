@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:layout="">
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -11,8 +11,12 @@
   <title>Hello, sbb!</title>
 </head>
 <body>
+<!-- 네비게이션바 -->
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-<div layout:fragment="content" class="container my-3">
-  <!-- 기본 템플릿 안에 삽입될 내용 End -->
+<th:block layout:fragment="content"></th:block>
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- Bootstrap JS -->
+<script th:src="@{/bootstrap.min.js}"></script>
 </body>
 </html>
