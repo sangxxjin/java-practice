@@ -1,4 +1,4 @@
-package org.example.jpa;
+package org.example.jpa.post.post;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

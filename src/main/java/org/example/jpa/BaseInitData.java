@@ -1,37 +1,33 @@
 package org.example.jpa;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.jpa.post.comment.PostComment;
+import org.example.jpa.post.comment.PostCommentService;
+import org.example.jpa.post.post.Post;
+import org.example.jpa.post.post.PostService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 @Configuration
 @RequiredArgsConstructor
 public class BaseInitData {
-
     private final PostService postService;
+    private final PostCommentService postCommentService;
 
     @Bean
-    @Order(1)
-    public ApplicationRunner BaseInitData() {
+    public ApplicationRunner baseInitData1ApplicationRunner() {
         return args -> {
-            postService.write("title1", "content1");
-            postService.write("title2", "content2");
-            postService.write("title3", "content3");
-            System.out.println(postService.count());
+            if (postService.count() > 0) return;
+            Post post1 = postService.write("title1", "content1");
+            Post post2 = postService.write("title2", "content2");
+            Post post3 = postService.write("title3", "content3");
+            // 1번글에 대한 댓글 1 생성
+            PostComment postComment1 = postCommentService.write(post1.getId(), "comment1");
+            // 1번글에 대한 댓글 2 생성
+            PostComment postComment2 = postCommentService.write(post1.getId(), "comment2");
+            // 2번글에 대한 댓글 3 생성
+            PostComment postComment3 = postCommentService.write(post2.getId(), "comment3");
         };
     }
-
-    @Bean
-    @Order(2)
-    @Transactional
-    public ApplicationRunner baseInitData2ApplicationRunner() {
-        return args -> {
-            Post post4 = postService.write("title3", "content4");
-            postService.delete(post4);
-        };
-    }
-
 }

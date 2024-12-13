@@ -1,4 +1,4 @@
-package org.example.jpa;
+package org.example.jpa.post.comment;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -25,26 +25,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
-
+public class PostComment {
     @Id
     @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT
     @Setter(AccessLevel.PRIVATE)
     private Long id;
-
     @CreatedDate
     @Setter(AccessLevel.PRIVATE)
     private LocalDateTime createdAt;
-
     @LastModifiedDate
     @Setter(AccessLevel.PRIVATE)
     private LocalDateTime modifiedAt;
-
-    @Column(length = 100)
-    private String title;
-
+    private long postId;
     @Column(columnDefinition = "TEXT")
     private String content;
-
     private boolean blind;
 }
