@@ -10,7 +10,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public Post writePost(String title, String content) {
+    public Post write(String title, String content) {
         Post post = Post
             .builder()
             .title(title)
@@ -32,5 +32,9 @@ public class PostService {
     public void modify(Post post, String title, String content) {
         post.setTitle(title);
         post.setContent(content);
+    }
+
+    public void delete(Post post) {
+        postRepository.delete(post);
     }
 }
