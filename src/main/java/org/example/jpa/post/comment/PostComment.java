@@ -5,6 +5,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -38,7 +39,7 @@ public class PostComment {
     @LastModifiedDate
     @Setter(AccessLevel.PRIVATE)
     private LocalDateTime modifiedAt;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
     @Column(columnDefinition = "TEXT")
     private String content;

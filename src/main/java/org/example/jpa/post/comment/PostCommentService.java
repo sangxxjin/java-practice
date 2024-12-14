@@ -1,5 +1,6 @@
 package org.example.jpa.post.comment;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.jpa.post.post.Post;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,8 @@ public class PostCommentService {
             .content(content)
             .build();
         return postCommentRepository.save(postComment);
+    }
+    public Optional<PostComment> findById(long id) {
+        return postCommentRepository.findById(id);
     }
 }
