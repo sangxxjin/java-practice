@@ -1,5 +1,10 @@
 package org.sangxxjin.javapractice.domain.post.post.controller;
 
+import jakarta.validation.Valid;
+import java.security.Principal;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.sangxxjin.javapractice.domain.member.member.entity.Member;
 import org.sangxxjin.javapractice.domain.post.post.dto.PostDto;
 import org.sangxxjin.javapractice.domain.post.post.dto.PostWithContentDto;
@@ -8,10 +13,6 @@ import org.sangxxjin.javapractice.domain.post.post.service.PostService;
 import org.sangxxjin.javapractice.global.rq.Rq;
 import org.sangxxjin.javapractice.global.rsData.RsData;
 import org.sangxxjin.javapractice.standard.page.dto.PageDto;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,10 +92,13 @@ public class ApiV1PostController {
     @PostMapping
     @Transactional
     public RsData<PostWithContentDto> write(
-        @RequestBody @Valid PostWriteReqBody reqBody
+        @RequestBody @Valid PostWriteReqBody reqBody,
+        Principal principal
     ) {
         Member actor = rq.checkAuthentication();
-
+        if(principal != null) {
+            actor = rq.getActorByUsername(principal.getName());
+        }
         Post post = postService.write(
             actor,
             reqBody.title,
