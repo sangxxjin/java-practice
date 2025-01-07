@@ -1,7 +1,6 @@
 package org.sangxxjin.javapractice.domain.post.post.controller;
 
 import jakarta.validation.Valid;
-import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,7 +12,7 @@ import org.sangxxjin.javapractice.domain.post.post.service.PostService;
 import org.sangxxjin.javapractice.global.rq.Rq;
 import org.sangxxjin.javapractice.global.rsData.RsData;
 import org.sangxxjin.javapractice.standard.page.dto.PageDto;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -95,12 +94,10 @@ public class ApiV1PostController {
     @Transactional
     public RsData<PostWithContentDto> write(
         @RequestBody @Valid PostWriteReqBody reqBody,
-        Principal principal
+        @AuthenticationPrincipal UserDetails user
     ) {
         Member actor = rq.checkAuthentication();
-        if(principal != null) {
-            Authentication authentication = (Authentication) principal;
-            UserDetails user = (UserDetails) authentication.getPrincipal();
+        if(user != null) {
             actor = rq.getActorByUsername(user.getUsername());
         }
         Post post = postService.write(
