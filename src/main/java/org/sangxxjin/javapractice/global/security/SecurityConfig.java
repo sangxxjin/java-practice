@@ -9,13 +9,27 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain baseSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorizeRequests ->
-            authorizeRequests
-                .requestMatchers(HttpMethod.GET, "/api/*/posts/{id:\\d+}", "/api/*/posts", "/api/*/posts/{postId:\\d+}/comments")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-        );
+        http
+            .authorizeHttpRequests(authorizeRequests ->
+                authorizeRequests
+                    .requestMatchers("/h2-console/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/*/posts/{id:\\d+}", "/api/*/posts", "/api/*/posts/{postId:\\d+}/comments")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+            )
+            .headers(
+                headers ->
+                    headers.frameOptions(
+                        frameOptions ->
+                            frameOptions.sameOrigin()
+                    )
+            )
+            .csrf(
+                csrf ->
+                    csrf.disable()
+            );
         return http.build();
     }
 }
