@@ -14,8 +14,6 @@ public class SecurityConfig {
                 authorizeRequests
                     .requestMatchers("/h2-console/**")
                     .permitAll()
-                    .requestMatchers("/h2-console/login.do") // 상위룰 우선이기 때문에, 의미 없음
-                    .authenticated() // 상위룰 우선이기 때문에, 의미 없음
                     .requestMatchers(HttpMethod.GET, "/api/*/posts/{id:\\d+}", "/api/*/posts", "/api/*/posts/{postId:\\d+}/comments")
                     .permitAll()
                     .anyRequest()
