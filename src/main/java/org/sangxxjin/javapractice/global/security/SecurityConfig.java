@@ -1,6 +1,8 @@
 package org.sangxxjin.javapractice.global.security;
 
+import org.sangxxjin.javapractice.standard.util.Ut;
 import lombok.RequiredArgsConstructor;
+import org.sangxxjin.javapractice.global.rsData.RsData;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -40,8 +42,33 @@ public class SecurityConfig {
                 csrf ->
                     csrf.disable()
             )
-            .addFilterBefore(customAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(
+                exceptionHandling -> exceptionHandling
+                    .authenticationEntryPoint(
+                        (request, response, authException) -> {
+                            response.setContentType("application/json;charset=UTF-8");
+                            boolean is401 = authException.getLocalizedMessage()
+                                .contains("authentication is required");
+                            if (is401) {
+                                response.setStatus(401);
+                                response.getWriter().write(
+                                    Ut.json.toString(
+                                        new RsData("401-1", "사용자 인증정보가 올바르지 않습니다.")
+                                    )
+                                );
+                                return;
+                            }
+                            response.setStatus(403);
+                            response.getWriter().write(
+                                Ut.json.toString(
+                                    new RsData("403-1", request.getRequestURI() + ", "
+                                        + authException.getLocalizedMessage())
+                                )
+                            );
+                        }
+                    )
+            );
 
         return http.build();
     }
