@@ -48,8 +48,10 @@ public class SecurityConfig {
                     .authenticationEntryPoint(
                         (request, response, authException) -> {
                             response.setContentType("application/json;charset=UTF-8");
+
                             boolean is401 = authException.getLocalizedMessage()
                                 .contains("authentication is required");
+
                             if (is401) {
                                 response.setStatus(401);
                                 response.getWriter().write(
@@ -59,6 +61,7 @@ public class SecurityConfig {
                                 );
                                 return;
                             }
+
                             response.setStatus(403);
                             response.getWriter().write(
                                 Ut.json.toString(
