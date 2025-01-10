@@ -92,6 +92,15 @@ public class AuthTokenServiceTest {
         Member memberUser1 = memberService.findByUsername("user1").get();
         String accessToken = authTokenService.genAccessToken(memberUser1);
         assertThat(accessToken).isNotBlank();
-        System.out.println("accessToken = " + accessToken);
+
+        assertThat(Ut.jwt.isValid(secret, accessToken)).isTrue();
+        Map<String, Object> parsedPayload = authTokenService.payload(secret, accessToken);
+        assertThat(parsedPayload)
+            .containsAllEntriesOf(
+                Map.of(
+                    "id", memberUser1.getId(),
+                    "username", memberUser1.getUsername()
+                )
+            );
     }
 }
