@@ -78,7 +78,7 @@ public class AuthTokenServiceTest {
     void t3() {
         String jwt = Ut.jwt.toString(secret, expireSeconds, Map.of("name", "Paul", "age", 23));
         assertThat(jwt).isNotBlank();
-        System.out.println("jwt = " + jwt);
+        assertThat(Ut.jwt.isValid(secret, jwt)).isTrue();
     }
 
     @Test
