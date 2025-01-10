@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import javax.crypto.SecretKey;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.sangxxjin.javapractice.domain.member.member.entity.Member;
@@ -43,20 +43,34 @@ public class AuthTokenServiceTest {
     void t2() {
         Date issuedAt = new Date();
         Date expiration = new Date(issuedAt.getTime() + 1000L * expireSeconds);
-        Key secretKey = Keys.hmacShaKeyFor(secret.getBytes());
-        String jwt = Jwts.builder()
-            .claims(
-                Map.of(
-                    "name", "Paul",
-                    "age", 23
-                )
-            )
+
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+
+        Map<String, Object> payload = Map.of(
+            "name", "Paul",
+            "age", 23
+        );
+
+        String jwtStr = Jwts.builder()
+            .claims(payload)
             .issuedAt(issuedAt)
             .expiration(expiration)
             .signWith(secretKey)
             .compact();
-        assertThat(jwt).isNotBlank();
-        System.out.println("jwt = " + jwt);
+
+        assertThat(jwtStr).isNotBlank();
+
+        // 키가 유효한지 테스트
+        Map<String, Object> parsedPayload = (Map<String, Object>) Jwts
+            .parser()
+            .verifyWith(secretKey)
+            .build()
+            .parse(jwtStr)
+            .getPayload();
+
+        // 키로 부터 payload 를 파싱한 결과가 원래 payload 와 같은지 테스트
+        assertThat(parsedPayload)
+            .containsAllEntriesOf(payload);
     }
 
     @Test
